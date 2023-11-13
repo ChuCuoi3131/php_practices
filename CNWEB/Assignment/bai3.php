@@ -1,51 +1,46 @@
 <?php
-    if (isset ($_POST['so']))
-    {
-        if(is_numeric ($_POST['so']))
-        {
-            switch($_POST['so'])
-            {
-                case 0: $chu = "khong.";break;
-                case 1: $chu = "mot.";break;
-                case 2: $chu = "hai.";break;
-                case 3: $chu = "ba.";break;
-                case 4: $chu = "bon.";break;
-                case 5: $chu = "nam.";break;
-                case 6: $chu = "sau.";break;
-                case 7: $chu = "bay.";break;
-                case 8: $chu = "tam.";break;
-                case 9: $chu = "chin.";break;
-                default: $chu = "khong hop le";
+          require "PHPMailer-master/src/PHPMailer.php";  //nhúng thư viện vào để dùng, sửa lại đường dẫn cho đúng nếu bạn lưu vào chỗ khác
+          require "PHPMailer-master/src/SMTP.php"; //nhúng thư viện vào để dùng
+          require 'PHPMailer-master/src/Exception.php'; //nhúng thư viện vào để dùng
+          $mail = new PHPMailer\PHPMailer\PHPMailer(true);  //true: enables exceptions
+            try {
+               // $mail->SMTPDebug = 2;  // 0,1,2: chế độ debug. khi mọi cấu hình đều tớt thì chỉnh lại 0 nhé
+                $mail->isSMTP();  
+                $mail->CharSet  = "utf-8";
+                $mail->Host = 'smtp.gmail.com';  //SMTP servers
+                $mail->SMTPAuth = true; // Enable authentication
+                $nguoigui = 'conlonloi31@gmail.com'; // Nhập gmail của người gửi
+                $matkhau = 'ebtt boqf rxzt iqgn'; // Nhập mật khẩu ứng dụng gmail người gửi
+		        $tennguoigui = 'Cướp Cạn'; // Nhập tên của người gửi
+                $mail->Username = $nguoigui; // SMTP username
+                $mail->Password = $matkhau;   // SMTP password
+                $mail->SMTPSecure = 'ssl';  // encryption TLS/SSL 
+                $mail->Port = 465;  // port to connect to                
+                $mail->setFrom($nguoigui, $tennguoigui ); 
+                $recipients = "ironcute37@gmail.com,phong31004@gmail.com";
+                $email_array = explode(",",$recipients);
+                foreach($email_array as $email) {
+                    $to = $email;
+                    $mail->addAddress($to); //mail
+                }
+                $mail->isHTML(true);  // Set email format to HTML
+                $mail->Subject = '[THƯ Cướp]';      
+                $noidungthu = "<b>Cướp</b><br>
+                Nạp 20k ko là mất phây búc!" ;
+                $mail->Body = $noidungthu;
+               // $mail->AddAttachment("4.jpg","picture");
+                $mail->smtpConnect( array(
+                    "ssl" => array(
+                        "verify_peer" => false,
+                        "verify_peer_name" => false,
+                        "allow_self_signed" => true
+                    )
+                ));
+                $mail->send();
+                echo 'Đã gửi mail xong';
+                
+            } catch (Exception $e) {
+                echo 'Mail không gửi được. Lỗi: ', $mail->ErrorInfo;
             }
-        }
-    }
+
 ?>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Xuất số thành chữ</title>
-</head>
-<body>
-<form action="bai3.php" method="POST" >
-<table width="519" border="1">
-<tr>
-<td colspan="3">Đọc số</td>
-</tr>
-<tr>
-<td>Nhập số (0-9)</td>
-<td width="69" rowspan="2"><input type="submit" name="button" id="button"
-value="Submit" /></td>
-<td> Bằng chữ</td>
-</tr>
-<tr>
-<td width="177"><p>
-<label for="textfield"></label>
-<input type="text" name="so" id="textfield" />
-</p></td>
-<td width="232"><label for="textfield2"></label>
-<input type="text" name="chu" id="textfield2" value="<?php if (isset($chu)) echo $chu; ?>" /></td>
-</tr>
-</table>
-</form>
-</body>
-</html>
