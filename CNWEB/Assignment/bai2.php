@@ -1,48 +1,39 @@
-<?php
-    if (isset ($_POST['a']) && isset ($_POST['b']))
-    {
-        $a = $_POST['a'];
-        $b = $_POST['b'];
-        if ($a == 0){
-            if ($b == 0) $nghiem = "Pt vo so nghiem";
-            else $nghiem = "Pt vo nghiem";
-        }else{
-            $x = -$b/$a;
-            $x = round($x, 2);
-            $nghiem = "x = ".$x;
-        }
-    }  
-?>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Giải phương trình bậc 1</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test email.</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script> -->
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 </head>
 <body>
-<form action="bai2.php" method="post" >
-<table width="744" border="1">
-<tr>
-<td colspan="3" bgcolor="#336699"><strong>Giải phương trình bậc 1 </strong></td>
-</tr>
-<tr>
-<td width="120">Phương trình </td>
-<td width="250">
-<input name="a" type="text" />
-X + </td>
-<td width="352"><label for="textfield"></label>
-<input name="b" type="text" id="textfield" />
-= 0</td>
-</tr>
-<tr>
-<td colspan="3">
-Nghiệm
-<label for="textfield2"></label>
-<input name="kq" type="text" id="textfield2" value="<?php if (isset($nghiem)) echo $nghiem; ?>" /></tr>
-<tr>
-<td colspan="3" align="center" valign="middle"><input type="submit" name="chao"
-id="chao" value="Xuất" /></td>
-</tr>
-</table>
-</form>
+    <div class="container">
+        <form action="mail.php" enctype="multipart/form-data" method="post">
+            <h1>Gửi meo thần tốc.</h1>
+            <label for="email">Email</label><br>
+            <input type="text" class="form-control" name="email" placeholder="Email"><br>
+            <label for="tieude">Subject</label><br>
+            <input type="text" class="form-control" name="tieude" placeholder="Tiêu đề"><br>
+            <label for="content">Nội dung</label><br>
+            <textarea name="content" id="editor" class="form-control"></textarea><br>
+            <script type="text/javascript">
+                // For Ckeditor5:
+                // ClassicEditor
+                //     .create(document.querySelector('#editor'))
+                //     .catch(error => {
+                //         console.error(error)
+                //     });
+
+                // For Ckeitor4:
+                CKEDITOR.replace('content');
+            </script>
+            <label for="file">File đính kèm</label><br>
+            <input type="file" class="form-control" name="file"><br>
+            <button type="submit" class="btn btn-primary">Gửi</button>
+        </form>
+    </div>
 </body>
 </html>
